@@ -1,0 +1,3 @@
+This is the first version of my personal project ( Yelp Camp website). It includes basic styling, form and navbar.
+It is built with HTML, CSS, EJS, JS, Node, Express. Styling is done with the help of Bootstrap. 
+The next version will have better styling and connection to mongoose DB.
