@@ -1,10 +1,4 @@
-// var request = require('request');
-// request('http://www.google.com', function (error, response, body) {
-//   if (!error && response.statusCode == 200) {
-//     console.log(body) // Show the HTML for the Google homepage.
-//   }
-// })
-
+//it is a simple app that gets the sunset time of hawaii from yahoo api
 var request = require('request');
 
 console.log("Sunset in Hawaii is at...");
