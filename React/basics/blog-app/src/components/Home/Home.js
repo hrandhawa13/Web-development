@@ -1,13 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { BlogList } from '../BlogList/BlogList';
-import axios from 'axios';
+import useFetch from '../../hooks/useFetch';
 
 
 export default function Home() {
-
-  const [blogs, setBlogs] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   // useEffect(() => {
   //   fetch(`http://localhost:8000/blogs`)
@@ -27,22 +23,7 @@ export default function Home() {
   //   })
   // }, []);
 
-  useEffect(()=>{
-    setError(null);
-    axios.get('http://localhost:8000/blogs')
-    .then(res => {
-      setTimeout(()=>{
-        console.log(res.data);
-        setBlogs(res.data);
-        setIsLoading(false);
-        setError(null);
-      },1500)
-    })
-    .catch(err => {
-      setError(err.message);
-      setIsLoading(false);
-    });
-  },[]);
+const {data: blogs, isLoading, error} = useFetch('http://localhost:8000/blogs');
 
 
   return (
