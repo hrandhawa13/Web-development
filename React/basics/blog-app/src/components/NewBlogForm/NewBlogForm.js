@@ -18,7 +18,7 @@ export default function NewBlogForm() {
     e.preventDefault();
     const postData = { title, body, author}
     try {
-      const res = await axios.post('http://localhost:8000/blogs', postData);
+      await axios.post('http://localhost:8000/blogs', postData);
       setIsPending(false);
       navigate('/');
     } catch (error) {

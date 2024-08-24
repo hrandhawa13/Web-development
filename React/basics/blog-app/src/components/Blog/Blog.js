@@ -11,7 +11,7 @@ export default function Blog() {
 
   const handleDelete = async () => {
     try {
-        const res = await axios.delete(`http://localhost:8000/blogs/${id}`);
+        await axios.delete(`http://localhost:8000/blogs/${id}`);
         navigate('/');
       } catch (error) {
         console.error('Error:', error);
