@@ -7,7 +7,7 @@ const useFetch = (url) => {
   const [error, setError] = useState(null);
 
   useEffect(()=>{
-    setTimeout(()=>{
+    // setTimeout(()=>{
       axios.get(url)
       .then(res => {
           setData(res.data);
@@ -18,7 +18,7 @@ const useFetch = (url) => {
         setError(err.message);
         setIsLoading(false);
       })
-    },1500);
+    // },1500);
   },[url]);
     
   // useEffect(() => {

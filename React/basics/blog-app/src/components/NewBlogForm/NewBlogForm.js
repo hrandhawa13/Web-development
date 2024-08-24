@@ -1,15 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './NewBlogForm.css'
+import axios from 'axios';
+
 export default function NewBlogForm() {
 
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [author, setAuthor] = useState('Mario');
+  const [isPending, setIsPending] = useState(false);
+  const navigate = useNavigate();
+
+
+  const handleSubmit = async (e) => {
+    setIsPending(true);
+    e.preventDefault();
+    const postData = { title, body, author}
+    try {
+      const res = await axios.post('http://localhost:8000/blogs', postData);
+      setIsPending(false);
+      navigate(-1);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <div className="create">
       <h2>Add a new Blog</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>Blog title:</label>
         <input type="text" required 
           value={title} 
@@ -31,7 +51,8 @@ export default function NewBlogForm() {
           <option value="Yoshi">Yoshi</option>
         </select>
 
-        <button>Add Blog!!!</button>
+        {!isPending && <button>Add Blog!!!</button>}
+        {isPending && <button disabled>Adding Blog!!!</button>}
       </form>
     </div>
   )
