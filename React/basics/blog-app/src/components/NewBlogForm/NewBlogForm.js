@@ -1,24 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect  } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './NewBlogForm.css'
 import axios from 'axios';
 
 export default function NewBlogForm() {
-
-
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [author, setAuthor] = useState('Mario');
+  const location = useLocation();
+  const editBlog = location.state?.editBlog;
+  const [title, setTitle] = useState(editBlog?.title || '');
+  const [body, setBody] = useState(editBlog?.body || '');
+  const [author, setAuthor] = useState(editBlog?.author || 'Mario');
   const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (editBlog) {
+      setTitle(editBlog.title || '');
+      setBody(editBlog.body || '');
+      setAuthor(editBlog.author || 'Mario');
+    } else {
+      // Clear form if not in edit mode
+      setTitle('');
+      setBody('');
+      setAuthor('Mario');
+    }
+  }, [editBlog]);
 
   const handleSubmit = async (e) => {
     setIsPending(true);
     e.preventDefault();
-    const postData = { title, body, author}
+    const blogData = { title, body, author};
     try {
-      await axios.post('http://localhost:8000/blogs', postData);
+      if(editBlog?.id){
+        await axios.put(`http://localhost:8000/blogs/${editBlog.id}`, blogData);
+      }else{
+        await axios.post('http://localhost:8000/blogs', blogData);
+      }
+      
       setIsPending(false);
       navigate('/');
     } catch (error) {
@@ -28,7 +45,7 @@ export default function NewBlogForm() {
 
   return (
     <div className="create">
-      <h2>Add a new Blog</h2>
+      <h2>{editBlog?.id ? 'Edit Blog' : 'Add a New Blog'}</h2>
       <form onSubmit={handleSubmit}>
         <label>Blog title:</label>
         <input type="text" required 
@@ -36,7 +53,7 @@ export default function NewBlogForm() {
           onChange={(e) => setTitle(e.target.value)} />
 
         <label>Blog body:</label>
-        <textarea
+        <textarea cols="50" rows="10"
           required
           value={body}
           onChange={(e) => setBody(e.target.value)}
@@ -51,7 +68,7 @@ export default function NewBlogForm() {
           <option value="Yoshi">Yoshi</option>
         </select>
 
-        {!isPending && <button>Add Blog!!!</button>}
+        {!isPending && <button>{editBlog?.id ? 'Update Blog' : 'Add Blog'}</button>}
         {isPending && <button disabled>Adding Blog!!!</button>}
       </form>
     </div>

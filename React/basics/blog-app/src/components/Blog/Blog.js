@@ -18,6 +18,10 @@ export default function Blog() {
       }
   }
 
+  const handleEdit = () => {
+    navigate(`/edit/${id}`, { state: { editBlog: blog } });
+  }
+
   return (
     <div className='blog-details'>
       {isLoading && <div>Loading data.....</div>}
@@ -27,6 +31,7 @@ export default function Blog() {
           <h2>{ blog.title }</h2>
           <p>Written by { blog.author }</p>
           <div>{ blog.body }</div>
+          <button className="button-spacing" onClick={handleEdit}>Edit Blog</button>
           <button onClick={handleDelete}>Delete Blog</button>
         </article>
         )}
