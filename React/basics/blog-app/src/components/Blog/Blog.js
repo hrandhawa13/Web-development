@@ -1,11 +1,23 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch';
+import axios from 'axios';
 import "./Blog.css"
 
 export default function Blog() {
   const { id } = useParams();
   const {data: blog, isLoading, error} = useFetch(`http://localhost:8000/blogs/${id}`);
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    try {
+        const res = await axios.delete(`http://localhost:8000/blogs/${id}`);
+        navigate('/');
+      } catch (error) {
+        console.error('Error:', error);
+      }
+  }
+
   return (
     <div className='blog-details'>
       {isLoading && <div>Loading data.....</div>}
@@ -15,6 +27,7 @@ export default function Blog() {
           <h2>{ blog.title }</h2>
           <p>Written by { blog.author }</p>
           <div>{ blog.body }</div>
+          <button onClick={handleDelete}>Delete Blog</button>
         </article>
         )}
     </div>
