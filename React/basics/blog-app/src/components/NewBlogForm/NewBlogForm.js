@@ -11,6 +11,7 @@ export default function NewBlogForm() {
   const [author, setAuthor] = useState(editBlog?.author || 'Mario');
   const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
+  const blogsUrl = process.env.BLOGS_BASE_URL;
 
   useEffect(() => {
     if (editBlog) {
@@ -31,9 +32,9 @@ export default function NewBlogForm() {
     const blogData = { title, body, author};
     try {
       if(editBlog?.id){
-        await axios.put(`http://localhost:8000/blogs/${editBlog.id}`, blogData);
+        await axios.put(`${blogsUrl}/${editBlog.id}`, blogData);
       }else{
-        await axios.post('http://localhost:8000/blogs', blogData);
+        await axios.post(`${blogsUrl}`, blogData);
       }
       
       setIsPending(false);

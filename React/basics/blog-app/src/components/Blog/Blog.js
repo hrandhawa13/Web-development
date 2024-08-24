@@ -5,13 +5,15 @@ import axios from 'axios';
 import "./Blog.css"
 
 export default function Blog() {
+  const blogsUrl = process.env.REACT_APP_BLOGS_BASE_URL;
+
   const { id } = useParams();
-  const {data: blog, isLoading, error} = useFetch(`http://localhost:8000/blogs/${id}`);
+  const {data: blog, isLoading, error} = useFetch(`${blogsUrl}/${id}`);
   const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
-        await axios.delete(`http://localhost:8000/blogs/${id}`);
+        await axios.delete(`${blogsUrl}/${id}`);
         navigate('/');
       } catch (error) {
         console.error('Error:', error);

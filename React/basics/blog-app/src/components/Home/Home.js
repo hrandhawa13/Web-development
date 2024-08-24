@@ -4,8 +4,9 @@ import useFetch from '../../hooks/useFetch';
 
 
 export default function Home() {
-
-  const {data: blogs, isLoading, error} = useFetch('http://localhost:8000/blogs');
+  const blogsUrl = process.env.REACT_APP_BLOGS_BASE_URL;
+  console.log(blogsUrl)
+  const {data: blogs, isLoading, error} = useFetch(blogsUrl);
   
   return (
     <div className='home'>
