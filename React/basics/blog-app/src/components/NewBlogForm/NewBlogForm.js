@@ -20,7 +20,7 @@ export default function NewBlogForm() {
     try {
       const res = await axios.post('http://localhost:8000/blogs', postData);
       setIsPending(false);
-      navigate(-1);
+      navigate('/');
     } catch (error) {
       console.error('Error:', error);
     }
